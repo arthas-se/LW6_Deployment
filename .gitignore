@@ -1,0 +1,21 @@
+# Visual Studio / .NET збірка та відладка
+[Bb]in/
+[Oo]bj/
+.vs/
+*.user
+*.userosscache
+*.suo
+.lock
+
+# Результати компіляції та кеші
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+
+# Логи та тимчасові файли
+*.log
+*.tmp
+_ReSharper*/
+*.rs.user

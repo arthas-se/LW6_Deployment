@@ -11,9 +11,9 @@ public enum RentalStatus
 
 public class Rental
 {
-    public int Id { get; set; }
-    public int UserId { get; set; }
-    public int ScooterId { get; set; }
+    public string Id { get; set; }
+    public string UserId { get; set; }
+    public string ScooterId { get; set; }
     public DateTime StartTime { get; set; }
     public DateTime? EndTime { get; set; }
     public RentalStatus Status { get; set; } = RentalStatus.Active;

@@ -2,6 +2,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using System.Text.Json.Serialization;
 using Task2.Utils;
+using Task2.Utils.Mapping;
 using Task2.Utils.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,13 +10,18 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 builder.Services.AddControllers();
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-builder.Services.AddValidatorsFromAssemblyContaining<ScooterValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<RentalValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<UserValidator>();
+
+builder.Services.AddAutoMapper(typeof(UserProfile));
+builder.Services.AddAutoMapper(typeof(ScooterProfile));
+builder.Services.AddAutoMapper(typeof(RentalProfile));
+
+builder.Services.AddAutoMapper(typeof(UserProfile), 
+    typeof(ScooterProfile), 
+    typeof(RentalProfile));
 
 builder.Services.AddTransient<JsonFileReader>();
 builder.Services.AddTransient<JsonFileWriter>();

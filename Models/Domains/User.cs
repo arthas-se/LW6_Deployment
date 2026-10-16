@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Task2.Models;
+namespace Task2.Models.Domain;
 
 public class User
 {

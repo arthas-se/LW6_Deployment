@@ -1,7 +1,7 @@
 ﻿//ScooterController.cs
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Task2.Models;
+using Task2.Models.Domain;
 using Task2.Utils;
 
 namespace Task2.Controllers;

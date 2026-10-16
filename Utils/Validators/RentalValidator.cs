@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using Task2.Models;
+using Task2.Models.Domain;
 
-namespace Task2.Validators;
+namespace Task2.Utils.Validators;
 
 public class RentalValidator : AbstractValidator<Rental>
 {

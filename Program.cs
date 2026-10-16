@@ -2,7 +2,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using System.Text.Json.Serialization;
 using Task2.Utils;
-using Task2.Validators;
+using Task2.Utils.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 

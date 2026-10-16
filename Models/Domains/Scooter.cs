@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Task2.Models;
+namespace Task2.Models.Domain;
 public enum ScooterStatus
 {
     Available,

@@ -16,7 +16,11 @@ public class RentalService : IRentalService
 
     public async Task<List<Rental>> GetAllAsync() => await _repository.GetAllAsync();
     public async Task<Rental?> GetByIdAsync(string id) => await _repository.GetByIdAsync(id);
-    public async Task CreateAsync(Rental rental) => await _repository.CreateAsync(rental);
+    public async Task CreateAsync(Rental rental)
+    {
+        rental.Id = MongoDB.Bson.ObjectId.GenerateNewId().ToString();
+        await _repository.CreateAsync(rental);
+    }
     public async Task UpdateAsync(string id, Rental rental) => await _repository.UpdateAsync(id, rental);
     public async Task UpdatePartialAsync(string id, RentalPatchDTO patchDto)
     {

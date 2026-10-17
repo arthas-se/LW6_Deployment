@@ -16,7 +16,11 @@ public class ScooterService : IScooterService
 
     public async Task<List<Scooter>> GetAllAsync() => await _repository.GetAllAsync();
     public async Task<Scooter?> GetByIdAsync(string id) => await _repository.GetByIdAsync(id);
-    public async Task CreateAsync(Scooter scooter) => await _repository.CreateAsync(scooter);
+    public async Task CreateAsync(Scooter scooter)
+    {
+        scooter.Id = MongoDB.Bson.ObjectId.GenerateNewId().ToString();
+        await _repository.CreateAsync(scooter);
+    } 
     public async Task UpdateAsync(string id, Scooter scooter) => await _repository.UpdateAsync(id, scooter);
     public async Task UpdatePartialAsync(string id, ScooterPatchDTO patchDto)
     {

@@ -1,8 +1,7 @@
-﻿//ScooterController.cs
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Task2.Logic_Tier.Interfaces;
 using Task2.Models.Domain;
-using Task2.Utils;
+using Task2.Models.DTO;
 
 namespace Task2.Controllers;
 
@@ -10,29 +9,24 @@ namespace Task2.Controllers;
 [ApiController]
 public class ScooterController : ControllerBase
 {
-    private readonly JsonFileReader _reader;
-    private readonly JsonFileWriter _writer;
-    private const string FileName = "scooters.json";
+    private readonly IScooterService _service;
 
-    public ScooterController(JsonFileReader reader, JsonFileWriter writer)
+    public ScooterController(IScooterService service)
     {
-        _reader = reader;
-        _writer = writer;
+        _service = service;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAllScooters()
     {
-        var scooters = await _reader.ReadDataAsync<Scooter>(FileName);
+        var scooters = await _service.GetAllAsync();
         return Ok(scooters);
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(int id)
+    public async Task<IActionResult> GetById(string id)
     {
-        var scooters = await _reader.ReadDataAsync<Scooter>(FileName);
-        var scooter = scooters.FirstOrDefault(s => s.Id == id);
-
+        var scooter = await _service.GetByIdAsync(id);
         if (scooter == null)
             return NotFound("Scooter not found!");
 
@@ -42,74 +36,28 @@ public class ScooterController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] Scooter newScooter)
     {
-        var scooters = await _reader.ReadDataAsync<Scooter>(FileName);
-
-        newScooter.Id = scooters.Any() ? scooters.Max(s => s.Id) + 1 : 1;
-        scooters.Add(newScooter);
-
-        await _writer.WriteDataAsync(FileName, scooters);
-
+        await _service.CreateAsync(newScooter);
         return CreatedAtAction(nameof(GetById), new { id = newScooter.Id }, newScooter);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Put(int id, [FromBody] Scooter updatedScooter)
+    public async Task<IActionResult> Put(string id, [FromBody] Scooter updatedScooter)
     {
-        var scooters = await _reader.ReadDataAsync<Scooter>(FileName);
-        var index = scooters.FindIndex(s => s.Id == id);
-
-        if (index == -1)
-            return NotFound($"Scooter with ID={id} not found!");
-
-        updatedScooter.Id = id;
-        scooters[index] = updatedScooter;
-
-        await _writer.WriteDataAsync(FileName, scooters);
+        await _service.UpdateAsync(id, updatedScooter);
         return NoContent();
     }
 
     [HttpPatch("{id}")]
-    public async Task<IActionResult> Patch(int id, [FromBody] Dictionary<string, object> updatedScooter)
+    public async Task<IActionResult> Patch(string id, [FromBody] ScooterPatchDTO patchDto)
     {
-        var scooters = await _reader.ReadDataAsync<Scooter>(FileName);
-        var scooter = scooters.FirstOrDefault(s => s.Id == id);
-
-        if (scooter == null)
-            return NotFound($"Scooter with ID={id} not found!");
-
-        var changes = new Dictionary<string, object>(updatedScooter, StringComparer.OrdinalIgnoreCase);
-
-        if (changes.TryGetValue("status", out var statusVal) && statusVal != null && Enum.TryParse<ScooterStatus>(statusVal.ToString(), true, out var status))
-        {
-            scooter.Status = status;
-        }
-
-        if (changes.TryGetValue("batteryCharge", out var batteryVal) && int.TryParse(batteryVal?.ToString(), out var battery))
-        {
-            scooter.BatteryCharge = battery;
-        }
-
-        if (changes.TryGetValue("tariff", out var tariffVal) && decimal.TryParse(tariffVal?.ToString(), out var tariff))
-        {
-            scooter.Tariff = tariff;
-        }
-
-        await _writer.WriteDataAsync(FileName, scooters);
-
-        return Ok(scooter);
+        await _service.UpdatePartialAsync(id, patchDto);
+        return NoContent();
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteById(int id)
+    public async Task<IActionResult> DeleteById(string id)
     {
-        var scooters = await _reader.ReadDataAsync<Scooter>(FileName);
-        var index = scooters.FindIndex(s => s.Id == id);
-
-        if (index == -1)
-            return NotFound($"Scooter with ID={id} not found!");
-
-        scooters.RemoveAt(index);
-        await _writer.WriteDataAsync(FileName, scooters);
+        await _service.DeleteAsync(id);
         return NoContent();
     }
 }

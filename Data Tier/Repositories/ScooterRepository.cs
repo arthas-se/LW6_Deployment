@@ -29,47 +29,11 @@ public class ScooterRepository
     }
     public async Task CreateAsync(Scooter scooter) =>
         await _collection.InsertOneAsync(_mapper.Map<ScooterDocument>(scooter));
-    public async Task UpdateAsync(Scooter scooter)
+    public async Task UpdateAsync(string id, Scooter scooter)
     {
         var doc = _mapper.Map<ScooterDocument>(scooter);
-        await _collection.ReplaceOneAsync(s => s.Id == doc.Id, doc);
-    }
-    public async Task UpdatePartialAsync(string id, ScooterPatchDTO patchDto)
-    {
-        var updateBuilder = Builders<ScooterDocument>.Update;
-        var updateList = new List<UpdateDefinition<ScooterDocument>>();
-
-        if (patchDto.Status.HasValue)
-        {
-            updateList.Add(updateBuilder.Set(s => s.Status, patchDto.Status));
-        }
-
-        if (patchDto.BatteryCharge.HasValue)
-        {
-            updateList.Add(updateBuilder.Set(s => s.BatteryCharge, patchDto.BatteryCharge));
-        }
-
-        if (patchDto.Coordinate is not null)
-        {
-            var mappedLocation = _mapper.Map<LocationCoordinateDocument>(patchDto.Coordinate);
-            updateList.Add(updateBuilder.Set(s => s.Coordinate, mappedLocation));
-        }
-
-        if (patchDto.Tariff.HasValue)
-        {
-            updateList.Add(updateBuilder.Set(s => s.Tariff, patchDto.Tariff));
-        }
-
-        if (patchDto.RentalHistory is not null)
-        {
-            var mappedRentals = _mapper.Map<List<RentalDocument>>(patchDto.RentalHistory);
-            updateList.Add(updateBuilder.Set(s => s.RentalHistory, mappedRentals));
-        }
-
-        if (updateList.Count == 0) return;
-        var combinedUpdate = updateBuilder.Combine(updateList);
-
-        await _collection.UpdateOneAsync(s => s.Id == id, combinedUpdate);
+        doc.Id = id;
+        await _collection.ReplaceOneAsync(s => s.Id == id, doc);
     }
     public async Task DeleteAsync(string id) =>
         await _collection.DeleteOneAsync(u => u.Id == id);

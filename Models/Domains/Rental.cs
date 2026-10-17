@@ -11,7 +11,7 @@ public enum RentalStatus
 
 public class Rental
 {
-    public string Id { get; set; }
+    public string Id { get; set; } = string.Empty;
     public string UserId { get; set; }
     public string ScooterId { get; set; }
     public DateTime StartTime { get; set; }

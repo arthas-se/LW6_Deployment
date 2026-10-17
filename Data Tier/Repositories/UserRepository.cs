@@ -30,41 +30,11 @@ public class UserRepository : IUserRepository
     }
     public async Task CreateAsync(User user) =>
         await _collection.InsertOneAsync(_mapper.Map<UserDocument>(user));
-    public async Task UpdateAsync(User user)
+    public async Task UpdateAsync(string id, User user)
     {
         var doc = _mapper.Map<UserDocument>(user);
-        await _collection.ReplaceOneAsync(u => u.Id == doc.Id, doc);
-    }
-    public async Task UpdatePartialAsync(string id, UserPatchDTO patchDto)
-    {
-        var updateBuilder = Builders<UserDocument>.Update;
-        var updateList = new List<UpdateDefinition<UserDocument>>();
-
-        if (patchDto.Login is not null)
-        {
-            updateList.Add(updateBuilder.Set(u => u.Login, patchDto.Login));
-        }
-
-        if (patchDto.Balance.HasValue)
-        {
-            updateList.Add(updateBuilder.Set(u => u.Balance, patchDto.Balance.Value));
-        }
-
-        if (patchDto.BlockedDeposit.HasValue)
-        {
-            updateList.Add(updateBuilder.Set(u => u.BlockedDeposit, patchDto.BlockedDeposit.Value));
-        }
-
-        if (patchDto.RentalHistory is not null)
-        { 
-            var mappedRentals = _mapper.Map<List<RentalDocument>>(patchDto.RentalHistory);
-            updateList.Add(updateBuilder.Set(u => u.RentalHistory, mappedRentals));
-        }
-        
-        if (updateList.Count == 0) return;
-        var combinedUpdate = updateBuilder.Combine(updateList);
-
-        await _collection.UpdateOneAsync(u => u.Id == id, combinedUpdate);
+        doc.Id = id;
+        await _collection.ReplaceOneAsync(u => u.Id == id, doc);
     }
     public async Task DeleteAsync(string id) =>
         await _collection.DeleteOneAsync(u => u.Id == id);

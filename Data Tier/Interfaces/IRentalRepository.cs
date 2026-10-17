@@ -7,8 +7,7 @@ public interface IRentalRepository
 {
     Task<List<Rental>> GetAllAsync();
     Task<Rental?> GetByIdAsync(string id);
-    Task CreateAsync(Rental scooter);
-    Task UpdateAsync(Rental scooter);
-    Task UpdatePartialAsync(string id, RentalPatchDTO fieldsToUpdate);
+    Task CreateAsync(Rental rental);
+    Task UpdateAsync(string id, Rental rental);
     Task DeleteAsync(string id);
 }

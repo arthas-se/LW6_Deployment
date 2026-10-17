@@ -1,11 +1,23 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using System.Text.Json.Serialization;
+using Task2.Data_Tier.Interfaces;
+using Task2.Data_Tier.Repositories;
+using Task2.Logic_Tier.Interfaces;
+using Task2.Services;
 using Task2.Utils;
 using Task2.Utils.Mapping;
 using Task2.Utils.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IScooterRepository, ScooterRepository>();
+builder.Services.AddScoped<IRentalRepository, RentalRepository>();
+
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IScooterService, ScooterService>();
+builder.Services.AddScoped<IRentalService, RentalService>();
 
 // Add services to the container.
 builder.Services.AddEndpointsApiExplorer();

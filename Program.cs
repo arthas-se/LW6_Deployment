@@ -23,9 +23,6 @@ builder.Services.AddAutoMapper(typeof(UserProfile),
     typeof(ScooterProfile), 
     typeof(RentalProfile));
 
-builder.Services.AddTransient<JsonFileReader>();
-builder.Services.AddTransient<JsonFileWriter>();
-
 var app = builder.Build();
 
 app.UseSwagger();

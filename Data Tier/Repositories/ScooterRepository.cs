@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using MongoDB.Driver;
 using Task2.Data_Tier.DataBase;
+using Task2.Data_Tier.Interfaces;
 using Task2.Models.Documents;
 using Task2.Models.Domain;
 using Task2.Models.DTO;
 
 namespace Task2.Data_Tier.Repositories;
 
-public class ScooterRepository
+public class ScooterRepository : IScooterRepository
 {
     private readonly IMongoCollection<ScooterDocument> _collection;
     private readonly IMapper _mapper;

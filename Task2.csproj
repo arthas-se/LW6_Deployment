@@ -7,14 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.1" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.12" />
     <PackageReference Include="MongoDB.Driver" Version="3.12.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Data Tier\Repositories\" />
   </ItemGroup>
 
 </Project>

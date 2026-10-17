@@ -17,7 +17,7 @@ public class LocationCoordinate
 
 public class Scooter
 {
-    public int Id { get; set; }
+    public string Id { get; set; }
     public ScooterStatus Status { get; set; } = ScooterStatus.Available;
     public int BatteryCharge { get; set; }
     public LocationCoordinate Coordinate { get; set; } = new();

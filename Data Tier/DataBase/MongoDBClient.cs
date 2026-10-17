@@ -19,4 +19,5 @@ public class MongoDBClient
         _db = client.GetDatabase("RESTfulAPI");
     }
 
+    public IMongoCollection<T> GetCollection<T>(string name) => _db.GetCollection<T>(name);
 }

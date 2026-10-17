@@ -9,12 +9,12 @@ public class UserValidator : AbstractValidator<User>
     {
         RuleFor(u => u.Login)
             .NotEmpty().WithMessage("Login is required!")
-            .Matches(@"^(?=.{8,}$)[^@]+@[^@]+$").WithMessage("Login must be minimum 8 symbols and with '@' inside (like, user@dev).");
+            .Matches(@"^(?=.{8,}$)[^@]+@[^@]+$").WithMessage("Login must be minimum 8 symbols and contain '@' (e.g., user@dev).");
 
         RuleFor(u => u.Balance)
-            .GreaterThan(-1).WithMessage("Balance can't be negative!");
+            .GreaterThanOrEqualTo(0).WithMessage("Balance can't be negative!");
 
         RuleFor(u => u.BlockedDeposit)
-            .GreaterThan(-1).WithMessage("Blocked deposit can't be negative!");
+            .GreaterThanOrEqualTo(0).WithMessage("Blocked deposit can't be negative!");
     }
 }

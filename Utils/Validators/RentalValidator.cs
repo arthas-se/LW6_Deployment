@@ -8,10 +8,10 @@ public class RentalValidator : AbstractValidator<Rental>
     public RentalValidator()
     {
         RuleFor(x => x.UserId)
-            .GreaterThan(0).WithMessage("Not valid user ID.");
+            .NotEmpty().WithMessage("User ID is required.");
 
         RuleFor(x => x.ScooterId)
-            .GreaterThan(0).WithMessage("Not valid scooter ID.");
+            .NotEmpty().WithMessage("Scooter ID is required.");
 
         RuleFor(x => x.TotalCost)
             .GreaterThanOrEqualTo(0).WithMessage("Cost can't be negative.");
@@ -19,6 +19,6 @@ public class RentalValidator : AbstractValidator<Rental>
         RuleFor(x => x.EndTime)
             .GreaterThanOrEqualTo(x => x.StartTime)
             .When(x => x.EndTime.HasValue)
-            .WithMessage("End time ca't be sooner than start time.");
+            .WithMessage("End time can't be sooner than start time.");
     }
 }

@@ -7,7 +7,7 @@ public interface IScooterService
 {
     Task<List<Scooter>> GetAllAsync();
     Task<Scooter?> GetByIdAsync(string id);
-    Task CreateAsync(Scooter scooter);
+    Task<Scooter> CreateAsync(ScooterPostDto dto);
     Task UpdateAsync(string id, Scooter scooter);
     Task UpdatePartialAsync(string id, ScooterPatchDto patchDto);
     Task DeleteAsync(string id);

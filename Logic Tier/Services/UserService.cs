@@ -1,4 +1,6 @@
-﻿using Task2.Data_Tier.Interfaces;
+﻿using AutoMapper;
+using Task2.Data_Tier.Interfaces;
+using Task2.Data_Tier.Repositories;
 using Task2.Logic_Tier.Interfaces;
 using Task2.Models.Domain;
 using Task2.Models.DTO;
@@ -8,18 +10,21 @@ namespace Task2.Services;
 public class UserService : IUserService
 {
     private readonly IUserRepository _repository;
+    private readonly IMapper _mapper;
 
-    public UserService(IUserRepository repository)
+    public UserService(IUserRepository repository, IMapper mapper)
     {
         _repository = repository;
+        _mapper = mapper;
     }
 
     public async Task<List<User>> GetAllAsync() => await _repository.GetAllAsync();
     public async Task<User?> GetByIdAsync(string id) => await _repository.GetByIdAsync(id);
-    public async Task CreateAsync(User user) 
+    public async Task<User> CreateAsync(UserPostDto dto)
     {
-        user.Id = MongoDB.Bson.ObjectId.GenerateNewId().ToString();
+        var user = _mapper.Map<User>(dto);
         await _repository.CreateAsync(user);
+        return user;
     }
     public async Task UpdateAsync(string id, User user) => await _repository.UpdateAsync(id, user);
     public async Task UpdatePartialAsync(string id, UserPatchDto patchDto)

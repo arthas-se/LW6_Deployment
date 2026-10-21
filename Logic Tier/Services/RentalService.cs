@@ -1,4 +1,5 @@
-﻿using Task2.Data_Tier.Interfaces;
+﻿using AutoMapper;
+using Task2.Data_Tier.Interfaces;
 using Task2.Data_Tier.Repositories;
 using Task2.Logic_Tier.Interfaces;
 using Task2.Models.Domain;
@@ -11,23 +12,27 @@ public class RentalService : IRentalService
     private readonly IRentalRepository _rentalRepository;
     private readonly IScooterRepository _scooterRepository;
     private readonly IUserRepository _userRepository;
+    private readonly IMapper _mapper;
 
     public RentalService(
         IRentalRepository rentalRepository,
         IScooterRepository scooterRepository,
-        IUserRepository userRepository)
+        IUserRepository userRepository,
+        IMapper mapper)
     {
         _rentalRepository = rentalRepository;
         _scooterRepository = scooterRepository;
         _userRepository = userRepository;
+        _mapper = mapper;
     }
 
     public async Task<List<Rental>> GetAllAsync() => await _rentalRepository.GetAllAsync();
     public async Task<Rental?> GetByIdAsync(string id) => await _rentalRepository.GetByIdAsync(id);
-    public async Task CreateAsync(Rental rental)
+    public async Task<Rental> CreateAsync(RentalPostDto dto)
     {
-        rental.Id = MongoDB.Bson.ObjectId.GenerateNewId().ToString();
+        var rental = _mapper.Map<Rental>(dto);
         await _rentalRepository.CreateAsync(rental);
+        return rental;
     }
     public async Task UpdateAsync(string id, Rental rental) => await _rentalRepository.UpdateAsync(id, rental);
     public async Task UpdatePartialAsync(string id, RentalPatchDto patchDto)

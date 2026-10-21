@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Task2.Logic_Tier.Interfaces;
 using Task2.Models.Domain;
 using Task2.Models.DTO;
+using Task2.Services;
 
 namespace Task2.Controllers;
 
@@ -35,10 +36,10 @@ public class RentalController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] Rental newRental)
+    public async Task<IActionResult> Create([FromBody] RentalPostDto dto)
     {
-        await _service.CreateAsync(newRental);
-        return CreatedAtAction(nameof(GetById), new { id = newRental.Id }, newRental);
+        var createdRental = await _service.CreateAsync(dto);
+        return CreatedAtAction(nameof(Create), new { id = createdRental.Id }, createdRental);
     }
 
     [HttpPut("{id}")]

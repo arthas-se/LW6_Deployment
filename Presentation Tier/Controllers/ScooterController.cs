@@ -2,6 +2,7 @@
 using Task2.Logic_Tier.Interfaces;
 using Task2.Models.Domain;
 using Task2.Models.DTO;
+using Task2.Services;
 
 namespace Task2.Controllers;
 
@@ -34,10 +35,10 @@ public class ScooterController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] Scooter newScooter)
+    public async Task<IActionResult> Create([FromBody] ScooterPostDto dto)
     {
-        await _service.CreateAsync(newScooter);
-        return CreatedAtAction(nameof(GetById), new { id = newScooter.Id }, newScooter);
+        var createdScooter = await _service.CreateAsync(dto);
+        return CreatedAtAction(nameof(Create), new { id = createdScooter.Id }, createdScooter);
     }
 
     [HttpPut("{id}")]

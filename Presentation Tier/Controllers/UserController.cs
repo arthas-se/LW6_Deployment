@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Task2.Logic_Tier.Interfaces;
 using Task2.Models.Domain;
 using Task2.Models.DTO;
+using Task2.Services;
 using Task2.Utils;
 
 namespace Task2.Controllers;
@@ -34,10 +35,10 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] User newUser)
+    public async Task<IActionResult> Create([FromBody] UserPostDto dto)
     {
-        await _service.CreateAsync(newUser);
-        return CreatedAtAction(nameof(GetById), new { id = newUser.Id }, newUser);
+        var createdUser = await _service.CreateAsync(dto);
+        return CreatedAtAction(nameof(Create), new { id = createdUser.Id }, createdUser);
     }
 
     [HttpPut("{id}")]

@@ -1,4 +1,6 @@
-﻿using Task2.Data_Tier.Interfaces;
+﻿using AutoMapper;
+using Task2.Data_Tier.Interfaces;
+using Task2.Data_Tier.Repositories;
 using Task2.Logic_Tier.Interfaces;
 using Task2.Models.Domain;
 using Task2.Models.DTO;
@@ -8,19 +10,22 @@ namespace Task2.Services;
 public class ScooterService : IScooterService
 {
     private readonly IScooterRepository _repository;
+    private readonly IMapper _mapper;
 
-    public ScooterService(IScooterRepository repository)
+    public ScooterService(IScooterRepository scooterRepository, IMapper mapper)
     {
-        _repository = repository;
+        _repository = scooterRepository;
+        _mapper = mapper;
     }
 
     public async Task<List<Scooter>> GetAllAsync() => await _repository.GetAllAsync();
     public async Task<Scooter?> GetByIdAsync(string id) => await _repository.GetByIdAsync(id);
-    public async Task CreateAsync(Scooter scooter)
+    public async Task<Scooter> CreateAsync(ScooterPostDto dto)
     {
-        scooter.Id = MongoDB.Bson.ObjectId.GenerateNewId().ToString();
+        var scooter = _mapper.Map<Scooter>(dto);
         await _repository.CreateAsync(scooter);
-    } 
+        return scooter;
+    }
     public async Task UpdateAsync(string id, Scooter scooter) => await _repository.UpdateAsync(id, scooter);
     public async Task UpdatePartialAsync(string id, ScooterPatchDto patchDto)
     {

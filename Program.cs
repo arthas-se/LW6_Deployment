@@ -16,26 +16,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IScooterRepository, ScooterRepository>();
 builder.Services.AddScoped<IRentalRepository, RentalRepository>();
-
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IScooterService, ScooterService>();
 builder.Services.AddScoped<IRentalService, RentalService>();
 
-// Add services to the container.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
-
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-builder.Services.AddAutoMapper(typeof(UserProfile));
-builder.Services.AddAutoMapper(typeof(ScooterProfile));
-builder.Services.AddAutoMapper(typeof(RentalProfile));
+builder.Services.AddAutoMapper(typeof(UserProfile), typeof(ScooterProfile), typeof(RentalProfile));
 
-builder.Services.AddAutoMapper(typeof(UserProfile), 
-    typeof(ScooterProfile), 
-    typeof(RentalProfile));
+builder.Services.AddValidatorsFromAssemblyContaining<UserValidator>();
+builder.Services.AddFluentValidationAutoValidation();
 
 var connectionString = builder.Configuration["MongoDBSettings:ConnectionString"];
 var databaseName = builder.Configuration["MongoDBSettings:DatabaseName"];
@@ -44,23 +37,18 @@ MongoDBClient.Initialize(connectionString, databaseName);
 var app = builder.Build();
 
 app.UseSwagger();
-
 app.UseSwaggerUI(options =>
 {
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
     options.RoutePrefix = string.Empty;
 });
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

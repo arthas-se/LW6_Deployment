@@ -21,6 +21,7 @@ public class UserService : IUserService
 
     public async Task<List<User>> GetAllAsync() => await _repository.GetAllAsync();
     public async Task<User?> GetByIdAsync(string id) => await _repository.GetByIdAsync(id);
+    public async Task<User?> GetByLoginAsync(string login) => await _repository.GetByLoginAsync(login);
     public async Task<User> CreateAsync(UserPostDto dto)
     {
         var user = _mapper.Map<User>(dto);

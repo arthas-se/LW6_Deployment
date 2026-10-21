@@ -1,11 +1,16 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using System.Text.Json.Serialization;
 using Task2.Data_Tier.DataBase;
 using Task2.Data_Tier.Interfaces;
 using Task2.Data_Tier.Repositories;
 using Task2.Logic_Tier.Interfaces;
+using Task2.Logic_Tier.Services;
 using Task2.Services;
 using Task2.Utils;
 using Task2.Utils.Mapping;
@@ -29,6 +34,31 @@ builder.Services.AddAutoMapper(typeof(UserProfile), typeof(ScooterProfile), type
 
 builder.Services.AddValidatorsFromAssemblyContaining<UserValidator>();
 builder.Services.AddFluentValidationAutoValidation();
+
+builder.Services.AddSingleton<IPasswordHasherService, PasswordHasherService>();
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
+builder.Services.AddSingleton<JwtTokenGeneratorService>();
+
+
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings["Issuer"],
+        ValidAudience = jwtSettings["Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]))
+    };
+}); 
 
 builder.Services.AddSingleton<MongoDBClient>(sp =>
 {
@@ -57,4 +87,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
+app.UseAuthentication();
+app.UseAuthorization();
 app.Run();

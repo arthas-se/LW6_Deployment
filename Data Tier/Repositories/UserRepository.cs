@@ -28,6 +28,11 @@ public class UserRepository : IUserRepository
         var doc = await _collection.Find(u => u.Id == id).FirstOrDefaultAsync();
         return doc == null ? null : _mapper.Map<User>(doc);
     }
+    public async Task<User?> GetByLoginAsync(string login)
+    {
+        var doc = await _collection.Find(u => u.Login == login).FirstOrDefaultAsync();
+        return doc == null ? null : _mapper.Map<User>(doc);
+    }
     public async Task CreateAsync(User user) =>
         await _collection.InsertOneAsync(_mapper.Map<UserDocument>(user));
     public async Task UpdateAsync(string id, User user)

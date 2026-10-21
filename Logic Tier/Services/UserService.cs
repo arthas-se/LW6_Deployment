@@ -50,11 +50,6 @@ public class UserService : IUserService
             user.BlockedDeposit = patchDto.BlockedDeposit.Value;
         }
 
-        if (patchDto.RentalHistory is not null)
-        {
-            user.RentalHistory = patchDto.RentalHistory;
-        }
-
         await _repository.UpdateAsync(id, user);
     }
     public async Task DeleteAsync(string id) => await _repository.DeleteAsync(id);

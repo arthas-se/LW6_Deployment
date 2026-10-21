@@ -57,10 +57,6 @@ public class RentalPatchDtoValidator : AbstractValidator<RentalPatchDto>
             .NotEmpty().WithMessage("Scooter ID is required.")
             .When(x => x.ScooterId != null);
 
-        RuleFor(x => x.TotalCost)
-            .GreaterThanOrEqualTo(0).WithMessage("Cost can't be negative.")
-            .When(x => x.TotalCost.HasValue);
-
         RuleFor(x => x.EndTime)
             .GreaterThanOrEqualTo(x => x.StartTime)
             .When(x => x.EndTime.HasValue && x.StartTime.HasValue)

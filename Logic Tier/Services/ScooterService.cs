@@ -55,11 +55,6 @@ public class ScooterService : IScooterService
             scooter.Tariff = patchDto.Tariff.Value;
         }
 
-        if (patchDto.RentalHistory is not null)
-        {
-            scooter.RentalHistory = patchDto.RentalHistory;
-        }
-
         await _repository.UpdateAsync(id, scooter);
     }
     public async Task DeleteAsync(string id) => await _repository.DeleteAsync(id);

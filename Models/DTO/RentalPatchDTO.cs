@@ -9,6 +9,5 @@ public class RentalPatchDto
     public DateTime? StartTime { get; set; }
     public DateTime? EndTime { get; set; }
     public int? Status { get; set; }
-    public decimal? TotalCost { get; set; }
     public string? CancellationReason { get; set; }
 }

@@ -68,11 +68,6 @@ public class RentalService : IRentalService
             rental.Status = (RentalStatus)patchDto.Status.Value; 
         }
 
-        if (patchDto.TotalCost.HasValue)
-        {
-            rental.TotalCost = patchDto.TotalCost.Value;
-        }
-
         if (patchDto.CancellationReason is not null)
         {
             rental.CancellationReason = patchDto.CancellationReason;

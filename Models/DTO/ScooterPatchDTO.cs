@@ -8,5 +8,4 @@ public class ScooterPatchDto
     public int? BatteryCharge { get; set; }
     public LocationCoordinate? Coordinate { get; set; }
     public decimal? Tariff { get; set; }
-    public List<Rental>? RentalHistory { get; set; }
 }

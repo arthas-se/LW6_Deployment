@@ -41,6 +41,11 @@ public class UserService : IUserService
             user.Login = patchDto.Login;
         }
 
+        if (patchDto.Password is not null)
+        {
+            user.Password = patchDto.Password;
+        }
+
         if (patchDto.Balance.HasValue)
         {
             user.Balance = patchDto.Balance.Value;

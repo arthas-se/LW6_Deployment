@@ -30,12 +30,18 @@ builder.Services.AddAutoMapper(typeof(UserProfile), typeof(ScooterProfile), type
 builder.Services.AddValidatorsFromAssemblyContaining<UserValidator>();
 builder.Services.AddFluentValidationAutoValidation();
 
-var connectionString = builder.Configuration["MongoDBSettings:ConnectionString"];
-var databaseName = builder.Configuration["MongoDBSettings:DatabaseName"];
-MongoDBClient.Initialize(connectionString, databaseName);
+builder.Services.AddSingleton<MongoDBClient>(sp =>
+{
+    var configuration = sp.GetRequiredService<IConfiguration>();
+    var connectionString = configuration["MongoDBSettings:ConnectionString"];
+    var databaseName = configuration["MongoDBSettings:DatabaseName"];
+
+    return new MongoDBClient(connectionString, databaseName);
+});
 
 var app = builder.Build();
 
+app.Services.GetRequiredService<MongoDBClient>();
 app.UseSwagger();
 app.UseSwaggerUI(options =>
 {

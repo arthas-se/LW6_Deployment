@@ -16,6 +16,12 @@ public class UserDocument
     [BsonElement("balance")]
     public decimal Balance { get; set; }
 
+    [BsonElement("passwordHash")]
+    public string Password { get; set; } = string.Empty;
+
+    [BsonElement("role")]
+    public int Role { get; set; }
+
     [BsonElement("blockedDeposit")]
     public decimal BlockedDeposit { get; set; }
 

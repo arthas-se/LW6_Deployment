@@ -1,6 +1,8 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.Extensions.Options;
 using System.Text.Json.Serialization;
+using Task2.Data_Tier.DataBase;
 using Task2.Data_Tier.Interfaces;
 using Task2.Data_Tier.Repositories;
 using Task2.Logic_Tier.Interfaces;
@@ -34,6 +36,10 @@ builder.Services.AddAutoMapper(typeof(RentalProfile));
 builder.Services.AddAutoMapper(typeof(UserProfile), 
     typeof(ScooterProfile), 
     typeof(RentalProfile));
+
+var connectionString = builder.Configuration["MongoDBSettings:ConnectionString"];
+var databaseName = builder.Configuration["MongoDBSettings:DatabaseName"];
+MongoDBClient.Initialize(connectionString, databaseName);
 
 var app = builder.Build();
 

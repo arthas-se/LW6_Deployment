@@ -12,11 +12,18 @@ public class MongoDBClient
         get => _instance ?? new MongoDBClient();
     }
 
+    public static void Initialize(string connectionString, string databaseName)
+    {
+        if (_instance == null)
+        {
+            var client = new MongoClient(connectionString);
+            _db = client.GetDatabase(databaseName);
+            _instance = new MongoDBClient();
+        }
+    }
     private MongoDBClient()
     {
-        var connectionString = "mongodb+srv://mkoval706_db_user:j66sxVw4A6DuZupJ@lw4.bcdvpxx.mongodb.net/";
-        var client = new MongoClient(connectionString);
-        _db = client.GetDatabase("RESTfulAPI");
+        
     }
 
     public IMongoCollection<T> GetCollection<T>(string name) => _db.GetCollection<T>(name);

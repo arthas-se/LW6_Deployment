@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Task2.Logic_Tier.Interfaces;
 using Task2.Models.Domain;
-using Task2.Models.DTO;
+using Task2.Models.DTO.Patch;
+using Task2.Models.DTO.Post;
+using Task2.Models.DTO.Business;
 using Task2.Services;
 
 namespace Task2.Controllers;

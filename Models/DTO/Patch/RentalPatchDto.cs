@@ -1,6 +1,6 @@
 ﻿using Task2.Models.Domain;
 
-namespace Task2.Models.DTO;
+namespace Task2.Models.DTO.Patch;
 
 public class RentalPatchDto
 {

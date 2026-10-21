@@ -1,5 +1,6 @@
 ﻿using Task2.Models.Domain;
-using Task2.Models.DTO;
+using Task2.Models.DTO.Patch;
+using Task2.Models.DTO.Post;
 
 namespace Task2.Logic_Tier.Interfaces;
 

@@ -1,4 +1,4 @@
-﻿namespace Task2.Models.DTO;
+﻿namespace Task2.Models.DTO.Post;
 
 public class ScooterPostDto
 {

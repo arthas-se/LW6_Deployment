@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Task2.Models.DTO;
+using Task2.Models.DTO.Patch;
 
 namespace Task2.Utils.Validators;
 

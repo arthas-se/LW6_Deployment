@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Task2.Models.Documents;
 using Task2.Models.Domain;
-using Task2.Models.DTO;
+using Task2.Models.DTO.Post;
 
 namespace Task2.Utils.Mapping;
 

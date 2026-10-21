@@ -1,10 +1,11 @@
 ﻿using Task2.Models.Domain;
 
-namespace Task2.Models.DTO;
+namespace Task2.Models.DTO.Patch;
 
 public class UserPatchDto
 {
     public string? Login { get; set; }
+    public string? Password { get; set; }
     public decimal? Balance { get; set; }
     public decimal? BlockedDeposit { get; set; }
 }

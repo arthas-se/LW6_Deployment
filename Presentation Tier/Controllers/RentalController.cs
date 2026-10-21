@@ -49,7 +49,7 @@ public class RentalController : ControllerBase
     }
 
     [HttpPatch("{id}")]
-    public async Task<IActionResult> Patch(string id, [FromBody] RentalPatchDTO patchDto)
+    public async Task<IActionResult> Patch(string id, [FromBody] RentalPatchDto patchDto)
     {
         await _service.UpdatePartialAsync(id, patchDto);
         return NoContent();
@@ -62,24 +62,75 @@ public class RentalController : ControllerBase
         return NoContent();
     }
 
-    /*
     [HttpPost("start")]
     public async Task<IActionResult> StartRental([FromBody] StartRentalDto dto)
     {
-        // Закоментовано для плавного переходу на сервісний шар та MongoDB
-        return StatusCode(501, "Not implemented yet via Service layer");
+        try
+        {
+            var rental = await _service.StartRentalAsync(dto);
+            return Ok(rental);
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
     }
 
-    [HttpPost("finish/{id}")]
-    public async Task<IActionResult> FinishRental(string id)
+    [HttpPost("finish")]
+    public async Task<IActionResult> FinishRental(FinishRentalDto dto)
     {
-        return StatusCode(501, "Not implemented yet via Service layer");
+        try
+        {
+            var rental = await _service.FinishRentalAsync(dto);
+            return Ok(rental);
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
     }
 
-    [HttpPost("{id}/cancel")]
-    public async Task<IActionResult> CancelRental(string id, [FromBody] Dictionary<string, string> body)
+    [HttpPost("cancel")]
+    public async Task<IActionResult> CancelRental([FromBody] CancelRentalDto dto)
     {
-        return StatusCode(501, "Not implemented yet via Service layer");
+        try
+        {
+            string cancellationReason = "Not specified";
+            if (dto != null && dto.CancellationReason != string.Empty)
+            {
+                cancellationReason = dto.CancellationReason;
+            }
+
+            await _service.CancelRentalAsync(dto);
+            return NoContent();
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
     }
-    */
 }

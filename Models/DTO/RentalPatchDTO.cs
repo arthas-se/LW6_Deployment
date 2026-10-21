@@ -2,7 +2,7 @@
 
 namespace Task2.Models.DTO;
 
-public class RentalPatchDTO
+public class RentalPatchDto
 {
     public string? UserId { get; set; }
     public string? ScooterId { get; set; }

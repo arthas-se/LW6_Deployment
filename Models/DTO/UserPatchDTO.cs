@@ -2,7 +2,7 @@
 
 namespace Task2.Models.DTO;
 
-public class UserPatchDTO
+public class UserPatchDto
 {
     public string? Login { get; set; }
     public decimal? Balance { get; set; }

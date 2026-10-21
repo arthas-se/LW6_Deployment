@@ -9,6 +9,6 @@ public interface IUserService
     Task<User?> GetByIdAsync(string id);
     Task CreateAsync(User user);
     Task UpdateAsync(string id, User user);
-    Task UpdatePartialAsync(string id, UserPatchDTO patchDto);
+    Task UpdatePartialAsync(string id, UserPatchDto patchDto);
     Task DeleteAsync(string id);
 }

@@ -48,7 +48,7 @@ public class ScooterController : ControllerBase
     }
 
     [HttpPatch("{id}")]
-    public async Task<IActionResult> Patch(string id, [FromBody] ScooterPatchDTO patchDto)
+    public async Task<IActionResult> Patch(string id, [FromBody] ScooterPatchDto patchDto)
     {
         await _service.UpdatePartialAsync(id, patchDto);
         return NoContent();

@@ -22,7 +22,7 @@ public class ScooterService : IScooterService
         await _repository.CreateAsync(scooter);
     } 
     public async Task UpdateAsync(string id, Scooter scooter) => await _repository.UpdateAsync(id, scooter);
-    public async Task UpdatePartialAsync(string id, ScooterPatchDTO patchDto)
+    public async Task UpdatePartialAsync(string id, ScooterPatchDto patchDto)
     {
         var scooter = await _repository.GetByIdAsync(id);
         if (scooter == null)

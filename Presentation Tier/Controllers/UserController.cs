@@ -48,7 +48,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPatch("{id}")]
-    public async Task<IActionResult> Patch(string id, [FromBody] UserPatchDTO patchDto)
+    public async Task<IActionResult> Patch(string id, [FromBody] UserPatchDto patchDto)
     {
         await _service.UpdatePartialAsync(id, patchDto);
 

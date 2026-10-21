@@ -22,7 +22,7 @@ public class UserService : IUserService
         await _repository.CreateAsync(user);
     }
     public async Task UpdateAsync(string id, User user) => await _repository.UpdateAsync(id, user);
-    public async Task UpdatePartialAsync(string id, UserPatchDTO patchDto)
+    public async Task UpdatePartialAsync(string id, UserPatchDto patchDto)
     {
         var user = await _repository.GetByIdAsync(id);
         if (user == null)

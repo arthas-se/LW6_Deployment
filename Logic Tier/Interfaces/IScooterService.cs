@@ -9,6 +9,6 @@ public interface IScooterService
     Task<Scooter?> GetByIdAsync(string id);
     Task CreateAsync(Scooter scooter);
     Task UpdateAsync(string id, Scooter scooter);
-    Task UpdatePartialAsync(string id, ScooterPatchDTO patchDto);
+    Task UpdatePartialAsync(string id, ScooterPatchDto patchDto);
     Task DeleteAsync(string id);
 }

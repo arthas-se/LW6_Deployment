@@ -15,7 +15,7 @@ public class ScooterRepository : IScooterRepository
 
     public ScooterRepository(IMapper mapper)
     {
-        _collection = MongoDBClient.Instance.GetCollection<ScooterDocument>("Scooter");
+        _collection = MongoDBClient.Instance.GetCollection<ScooterDocument>("Scooters");
         _mapper = mapper;
     }
     public async Task<List<Scooter>> GetAllAsync()

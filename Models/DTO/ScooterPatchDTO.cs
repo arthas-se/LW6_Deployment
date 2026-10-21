@@ -2,7 +2,7 @@
 
 namespace Task2.Models.DTO;
 
-public class ScooterPatchDTO
+public class ScooterPatchDto
 {
     public int? Status { get; set; }
     public int? BatteryCharge { get; set; }

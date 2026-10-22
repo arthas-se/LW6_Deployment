@@ -16,4 +16,7 @@ public class User
     public decimal Balance { get; set; }
     public decimal BlockedDeposit { get; set; }
     public List<Rental> RentalHistory { get; set; } = new();
+
+    public string? RefreshToken { get; set; }
+    public DateTime RefreshTokenExpiryTime { get; set; }
 }

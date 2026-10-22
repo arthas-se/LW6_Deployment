@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Task2.Logic_Tier.Interfaces;
 using Task2.Models.Domain;
@@ -11,6 +12,7 @@ namespace Task2.Controllers;
 
 [Route("api/user")]
 [ApiController]
+[Authorize]
 public class UserController : ControllerBase
 {
     private readonly IUserService _service;
@@ -36,6 +38,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Create([FromBody] UserPostDto dto)
     {
         var createdUser = await _service.CreateAsync(dto);
@@ -43,6 +46,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Put(string id, [FromBody] User updatedUser)
     {
         await _service.UpdateAsync(id, updatedUser);
@@ -50,6 +54,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPatch("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Patch(string id, [FromBody] UserPatchDto patchDto)
     {
         await _service.UpdatePartialAsync(id, patchDto);
@@ -58,6 +63,7 @@ public class UserController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteById(string id)
     {
         await _service.DeleteAsync(id);

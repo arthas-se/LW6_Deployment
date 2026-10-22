@@ -27,4 +27,10 @@ public class UserDocument
 
     [BsonElement("rentalHistory")]
     public List<RentalDocument> RentalHistory { get; set; } = new();
+
+    [BsonElement("refreshToken")]
+    public string? RefreshToken { get; set; }
+
+    [BsonElement("refreshTokenExpiryTime")]
+    public DateTime RefreshTokenExpiryTime { get; set; }
 }

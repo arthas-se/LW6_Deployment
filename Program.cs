@@ -11,6 +11,7 @@ using Task2.Data_Tier.Interfaces;
 using Task2.Data_Tier.Repositories;
 using Task2.Logic_Tier.Interfaces;
 using Task2.Logic_Tier.Services;
+using Task2.Models.Domains;
 using Task2.Services;
 using Task2.Utils;
 using Task2.Utils.Mapping;
@@ -37,7 +38,7 @@ builder.Services.AddFluentValidationAutoValidation();
 
 builder.Services.AddSingleton<IPasswordHasherService, PasswordHasherService>();
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
-builder.Services.AddSingleton<JwtTokenGeneratorService>();
+builder.Services.AddScoped<IJwtTokenGeneratorService, JwtTokenGeneratorService>();
 
 
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
@@ -85,9 +86,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseAuthorization();
+
+app.UseAuthentication(); 
+app.UseAuthorization(); 
+
 app.MapControllers();
 
-app.UseAuthentication();
-app.UseAuthorization();
 app.Run();

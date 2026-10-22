@@ -5,18 +5,10 @@ using System.Security.Claims;
 using System.Text;
 using Task2.Logic_Tier.Interfaces;
 using Task2.Models.Domain;
+using Task2.Models.Domains;
 
 namespace Task2.Logic_Tier.Services;
-
-public class JwtSettings
-{
-    public string SecretKey { get; set; } = string.Empty;
-    public string Issuer { get; set; } = string.Empty;
-    public string Audience { get; set; } = string.Empty;
-    public int AccessTokenExpirationMinutes { get; set; }
-    public int RefreshTokenExpirationDays { get; set; }
-}
-public class JwtTokenGeneratorService
+public class JwtTokenGeneratorService : IJwtTokenGeneratorService
 {
     private readonly JwtSettings _jwtSettings;
 

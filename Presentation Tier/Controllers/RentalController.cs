@@ -1,16 +1,18 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Task2.Logic_Tier.Interfaces;
 using Task2.Models.Domain;
+using Task2.Models.DTO.Business;
 using Task2.Models.DTO.Patch;
 using Task2.Models.DTO.Post;
-using Task2.Models.DTO.Business;
 using Task2.Services;
 
 namespace Task2.Controllers;
 
 [Route("api/rental")]
 [ApiController]
+[Authorize]
 public class RentalController : ControllerBase
 {
     private readonly IRentalService _service;
@@ -38,6 +40,7 @@ public class RentalController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Create([FromBody] RentalPostDto dto)
     {
         var createdRental = await _service.CreateAsync(dto);
@@ -45,6 +48,7 @@ public class RentalController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Put(string id, [FromBody] Rental updatedRental)
     {
         await _service.UpdateAsync(id, updatedRental);
@@ -52,6 +56,7 @@ public class RentalController : ControllerBase
     }
 
     [HttpPatch("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Patch(string id, [FromBody] RentalPatchDto patchDto)
     {
         await _service.UpdatePartialAsync(id, patchDto);
@@ -59,6 +64,7 @@ public class RentalController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteById(string id)
     {
         await _service.DeleteAsync(id);

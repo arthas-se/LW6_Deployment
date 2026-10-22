@@ -11,4 +11,6 @@ public interface IUserRepository
     Task CreateAsync(User user);
     Task UpdateAsync(string id, User user);
     Task DeleteAsync(string id);
+
+    Task<User?> GetByRefreshTokenAsync(string refreshToken);
 }

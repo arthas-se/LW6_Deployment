@@ -13,4 +13,5 @@ public interface IUserService
     Task UpdateAsync(string id, User user);
     Task UpdatePartialAsync(string id, UserPatchDto patchDto);
     Task DeleteAsync(string id);
+    Task<User?> GetByRefreshTokenAsync(string refreshToken);
 }

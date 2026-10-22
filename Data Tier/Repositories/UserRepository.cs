@@ -44,4 +44,15 @@ public class UserRepository : IUserRepository
     public async Task DeleteAsync(string id) =>
         await _collection.DeleteOneAsync(u => u.Id == id);
 
+    public async Task<User?> GetByRefreshTokenAsync(string refreshToken)
+    {
+        var filter = Builders<UserDocument>.Filter.Eq(u => u.RefreshToken, refreshToken);
+        var userDoc = await _collection.Find(filter).FirstOrDefaultAsync();
+
+        if (userDoc == null)
+            return null;
+
+        return _mapper.Map<User>(userDoc);
+    }
+
 }

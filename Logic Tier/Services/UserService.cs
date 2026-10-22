@@ -60,4 +60,9 @@ public class UserService : IUserService
         await _repository.UpdateAsync(id, user);
     }
     public async Task DeleteAsync(string id) => await _repository.DeleteAsync(id);
+
+    public async Task<User?> GetByRefreshTokenAsync(string refreshToken)
+    {
+        return await _repository.GetByRefreshTokenAsync(refreshToken);
+    }
 }

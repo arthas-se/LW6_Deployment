@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Task2.Logic_Tier.Interfaces;
 using Task2.Models.Domain;
 using Task2.Models.DTO.Patch;
@@ -9,6 +10,7 @@ namespace Task2.Controllers;
 
 [Route("api/scooter")]
 [ApiController]
+[Authorize]
 public class ScooterController : ControllerBase
 {
     private readonly IScooterService _service;
@@ -36,6 +38,7 @@ public class ScooterController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Create([FromBody] ScooterPostDto dto)
     {
         var createdScooter = await _service.CreateAsync(dto);
@@ -43,6 +46,7 @@ public class ScooterController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Put(string id, [FromBody] Scooter updatedScooter)
     {
         await _service.UpdateAsync(id, updatedScooter);
@@ -50,6 +54,7 @@ public class ScooterController : ControllerBase
     }
 
     [HttpPatch("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Patch(string id, [FromBody] ScooterPatchDto patchDto)
     {
         await _service.UpdatePartialAsync(id, patchDto);
@@ -57,6 +62,7 @@ public class ScooterController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteById(string id)
     {
         await _service.DeleteAsync(id);

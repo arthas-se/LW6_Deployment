@@ -1,11 +1,8 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using System.Text.Json.Serialization;
 using Task2.Data_Tier.DataBase;
 using Task2.Data_Tier.Interfaces;
 using Task2.Data_Tier.Repositories;
@@ -13,11 +10,17 @@ using Task2.Logic_Tier.Interfaces;
 using Task2.Logic_Tier.Services;
 using Task2.Models.Domains;
 using Task2.Services;
-using Task2.Utils;
 using Task2.Utils.Mapping;
 using Task2.Utils.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(Int32.Parse(port));
+});
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IScooterRepository, ScooterRepository>();
@@ -93,3 +96,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }

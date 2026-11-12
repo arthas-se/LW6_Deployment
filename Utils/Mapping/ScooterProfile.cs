@@ -13,9 +13,9 @@ public class ScooterProfile : Profile
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
             .ForMember(dest => dest.Coordinate, opt => opt.MapFrom(src => src.Coordinate))
             .ForMember(dest => dest.Status, opt => opt.MapFrom(src => (int)src.Status))
-            .ReverseMap()
             .ForMember(dest => dest.Coordinate, opt => opt.MapFrom(src => src.Coordinate))
-            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => (ScooterStatus)src.Status));
+            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => (ScooterStatus)src.Status))
+            .ReverseMap();
 
         CreateMap<LocationCoordinate, LocationCoordinateDocument>().ReverseMap();
 

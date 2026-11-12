@@ -1,3 +1,5 @@
 <Solution>
+  <Project Path="../IntegrationTest/IntegrationTest.csproj" Id="bba81b75-8896-4438-b3a0-5878d34f44c1" />
+  <Project Path="../UnitTest/UnitTest.csproj" Id="97542020-4659-4dbd-bba4-38f9547c0004" />
   <Project Path="Task2.csproj" />
 </Solution>

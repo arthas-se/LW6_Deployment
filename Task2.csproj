@@ -5,6 +5,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <InterceptorsNamespaces>$(InterceptorsNamespaces);Microsoft.AspNetCore.OpenApi.Generated</InterceptorsNamespaces>
+
+    <EnableOpenApiAnalyzers>false</EnableOpenApiAnalyzers>
   </PropertyGroup>
 
   <ItemGroup>

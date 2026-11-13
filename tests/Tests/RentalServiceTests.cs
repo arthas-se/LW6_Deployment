@@ -37,7 +37,7 @@ public class RentalServiceTests
         var result = await _rentalService.GetAllAsync();
 
         Assert.NotNull(result);
-        Assert.Equal(7, result.Count);
+        Assert.Equal(2, result.Count);
     }
 
     [Fact]

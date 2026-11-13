@@ -24,7 +24,7 @@ jobs:
         run: dotnet build src/Task2.csproj --configuration Release --no-restore
 
       - name: Run tests
-        run: dotnet test tests/UnitTest.csproj --configuration Release --no-build --verbosity normal
+        run: dotnet test tests/UnitTest.csproj --configuration Release --verbosity normal
 
       - name: Install Railway CLI
         run: npm i -g @railway/cli
